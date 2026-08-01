@@ -1,72 +1,43 @@
 # Optimization Methods for Deep Neural Networks
 
-A hands-on implementation of optimization techniques for training deep neural networks, completed as part of the Deep Learning Specialization.
+A practical implementation and comparative study of optimization techniques used to train deep neural networks efficiently.
 
-This project demonstrates how different optimization algorithms affect convergence speed, learning stability, and final model performance. The notebook implements mini-batch gradient descent, Momentum, RMSProp concepts, Adam optimization, and learning rate decay while visualizing their behavior during training.
+This project explores how different optimization algorithms influence convergence speed, optimization stability, and model performance through hands-on implementations, mathematical intuition, and visual demonstrations. The notebook implements Mini-Batch Gradient Descent, Momentum, Adam, and Learning Rate Decay while explaining the role of RMSProp within the Adam optimization algorithm.
 
 ---
 
 ## Project Overview
 
-Training neural networks efficiently requires more than standard Gradient Descent. This project explores modern optimization techniques that improve convergence by:
+Optimization is one of the most important components of deep learning. Although neural network architectures define the model, optimization algorithms determine how efficiently the network learns from data.
 
-- Reducing oscillations
-- Accelerating optimization
-- Adapting learning rates
-- Improving training stability
-- Achieving faster convergence
+This project investigates several widely used optimization techniques introduced in modern deep learning and demonstrates how they improve training compared with standard Gradient Descent.
 
-The notebook compares optimization algorithms both mathematically and visually.
+The notebook combines theoretical explanations with practical implementations and visualizations to illustrate how each optimization method affects parameter updates and convergence.
 
 ---
 
 ## Features
 
-- Gradient Descent implementation
-- Mini-Batch Gradient Descent
-- Random mini-batch generation
+- Implementation of Mini-Batch Gradient Descent
+- Random data shuffling before each training epoch
+- Mini-batch generation and partitioning
 - Momentum optimization
-- Adam optimizer
-- Learning rate decay
-- Performance comparison between optimizers
-- Cost visualization during training
+- Adam optimizer implementation
+- Learning Rate Decay scheduling
+- Cost function visualization during training
 - Decision boundary visualization
-- Training accuracy evaluation
+- Comparison of optimization algorithms
+- Classification accuracy evaluation
+- Practical demonstrations of optimization trajectories
+- Mathematical intuition behind Momentum, RMSProp, and Adam
 
 ---
 
-## Project Structure
+## Optimization Methods Covered
 
-```
-Optimization-Methods/
-│
-├── Optimization_methods.ipynb
-├── datasets/
-├── images/
-├── opt_utils_v1a.py
-├── public_tests.py
-├── testCases.py
-└── README.md
-```
+### Gradient Descent
 
----
-
-# Optimization Techniques
-
-## 1. Gradient Descent
-
-Gradient Descent updates model parameters using the gradient computed from the entire training dataset.
-
-### Advantages
-
-- Stable updates
-- Smooth convergence
-- Easy to understand
-
-### Limitations
-
-- Slow on large datasets
-- High computational cost
+Updates model parameters using gradients computed from the entire training dataset. While stable, this approach becomes computationally expensive for large datasets.
 
 <p align="center">
 <img src="images/kiank_sgd.png" width="700">
@@ -74,28 +45,19 @@ Gradient Descent updates model parameters using the gradient computed from the e
 
 ---
 
-## 2. Mini-Batch Gradient Descent
+### Mini-Batch Gradient Descent
 
-Instead of processing the entire dataset, the data is divided into small batches.
+Instead of processing the complete dataset at once, the training set is randomly shuffled and divided into small batches. Each mini-batch performs one forward pass, one backward pass, and one parameter update.
 
-Each batch performs:
-
-1. Forward propagation
-2. Cost computation
-3. Backpropagation
-4. Parameter update
-
-<p align="center">
-<img src="images/kiank_partition.png" width="700">
-</p>
-
-Random shuffling is performed before every epoch.
+This approach provides an effective balance between computational efficiency and optimization stability.
 
 <p align="center">
 <img src="images/kiank_shuffle.png" width="700">
 </p>
 
-Mini-batch optimization provides a balance between computational efficiency and convergence stability.
+<p align="center">
+<img src="images/kiank_partition.png" width="700">
+</p>
 
 <p align="center">
 <img src="images/kiank_minibatch.png" width="700">
@@ -103,17 +65,15 @@ Mini-batch optimization provides a balance between computational efficiency and 
 
 ---
 
-## 3. Momentum
+### Momentum
 
-Momentum accelerates Gradient Descent by accumulating gradients from previous updates.
+Momentum accelerates optimization by maintaining an exponentially weighted average of previous gradients.
 
-Instead of following only the current gradient, Momentum uses a velocity term that helps move consistently toward the optimum while reducing oscillations.
+Instead of relying only on the current gradient, Momentum preserves information from previous updates, reducing oscillations and improving convergence along consistent optimization directions.
 
 <p align="center">
 <img src="images/Momentum.png" width="650">
 </p>
-
-Visualization of the optimization trajectory:
 
 <p align="center">
 <img src="images/opt_momentum.png" width="700">
@@ -121,77 +81,85 @@ Visualization of the optimization trajectory:
 
 ---
 
-## 4. Learning Rate Decay
+### RMSProp
 
-Rather than using a fixed learning rate, the learning rate gradually decreases during training.
+RMSProp (Root Mean Square Propagation) adapts the learning rate individually for each parameter by maintaining an exponentially weighted average of squared gradients.
 
-Benefits include:
+Unlike Momentum, which improves the optimization direction, RMSProp adjusts the magnitude of parameter updates. Large gradients produce smaller updates, while small gradients allow relatively larger updates, resulting in smoother optimization.
 
-- Large updates at the beginning
-- Small refinements near convergence
-- Reduced overshooting
-- Improved stability
+Although RMSProp is discussed conceptually in this project, it is incorporated through the Adam optimizer rather than implemented as a standalone optimization algorithm.
+
+---
+
+### Adam (Adaptive Moment Estimation)
+
+Adam combines the strengths of Momentum and RMSProp.
+
+It simultaneously maintains:
+
+- First-order moment estimates (Momentum)
+- Second-order moment estimates (RMSProp)
+
+Bias correction is then applied before updating the parameters, producing fast, stable, and adaptive optimization. Adam has become one of the most widely used optimization algorithms for deep learning.
+
+---
+
+### Learning Rate Decay
+
+Learning Rate Decay gradually decreases the learning rate throughout training.
+
+Large learning rates enable rapid progress during the early stages of optimization, while smaller learning rates later in training allow the optimizer to perform finer parameter adjustments and improve convergence.
 
 <p align="center">
-<img src="images/lr.png" width="450">
+<img src="images/lr.png" width="420">
 </p>
 
 ---
 
-## 5. Adam Optimization
+## Optimization Comparison
 
-Adam combines:
-
-- Momentum (first moment)
-- Adaptive learning rates (second moment)
-
-This allows each parameter to have its own effective learning rate while maintaining optimization direction.
-
-Adam generally converges faster and more reliably than vanilla Gradient Descent.
-
----
-
-# Optimization Comparison
-
-Different optimization algorithms follow different paths toward the minimum.
+The notebook compares different optimization strategies and illustrates how each optimizer follows a different trajectory toward the minimum of the cost function.
 
 <p align="center">
-<img src="images/opt1.gif" width="550">
+<img src="images/opt1.gif" width="650">
 </p>
 
-Another optimization landscape comparison:
-
 <p align="center">
-<img src="images/opt2.gif" width="550">
+<img src="images/opt2.gif" width="650">
 </p>
 
 ---
 
-# Cost Landscape
+## Experimental Results
 
-The optimization objective can be viewed as navigating a complex cost surface toward the global or local minimum.
+The implemented optimization methods are evaluated using:
 
-<p align="center">
-<img src="images/cost.jpg" width="700">
-</p>
+- Cost convergence
+- Decision boundary visualization
+- Classification accuracy
+- Optimization trajectory comparison
 
----
-
-# Results
-
-The notebook compares optimization methods based on:
-
-- Training accuracy
-- Cost reduction
-- Decision boundaries
-- Convergence speed
-- Learning stability
-
-Experiments demonstrate that advanced optimizers such as Momentum and Adam significantly improve optimization efficiency compared with standard Gradient Descent.
+The experiments demonstrate how advanced optimization techniques such as Momentum and Adam improve convergence behavior compared with standard Gradient Descent while maintaining high predictive performance.
 
 ---
 
-# Technologies Used
+## Repository Structure
+
+```text
+Optimization-Methods/
+│
+├── Optimization_methods.ipynb
+├── datasets/
+├── images/
+├── opt_utils_v1a.py
+├── README.md
+├── .gitignore
+└── requirements.txt
+```
+
+---
+
+## Technologies
 
 - Python
 - NumPy
@@ -200,22 +168,46 @@ Experiments demonstrate that advanced optimizers such as Momentum and Adam signi
 
 ---
 
-# Learning Outcomes
+## How to Run
 
-Through this project, I gained practical experience with:
+1. Clone the repository.
 
-- Gradient-based optimization
-- Mini-batch training
-- Momentum optimization
-- Adam optimizer
-- Learning rate scheduling
-- Hyperparameter tuning
-- Neural network training workflows
-- Cost function visualization
+```bash
+git clone https://github.com/<your-username>/Optimization-Methods.git
+```
+
+2. Navigate to the project directory.
+
+```bash
+cd Optimization-Methods
+```
+
+3. Launch Jupyter Notebook.
+
+```bash
+jupyter notebook
+```
+
+4. Open **Optimization_methods.ipynb** and execute the notebook from top to bottom.
 
 ---
 
-# References
+## Learning Outcomes
 
-- Deep Learning Specialization — Andrew Ng
-- DeepLearning.AI
+This project strengthened my understanding of:
+
+- Gradient-based optimization
+- Mini-Batch Gradient Descent
+- Random shuffling and batch generation
+- Momentum optimization
+- RMSProp intuition
+- Adam optimization
+- Learning Rate Decay
+- Neural network training workflows
+- Optimization visualization and analysis
+
+---
+
+## Acknowledgements
+
+This project was completed as part of the **Deep Learning Specialization** offered by **DeepLearning.AI**. The implementations were developed for educational purposes to better understand optimization algorithms used in modern deep learning.
